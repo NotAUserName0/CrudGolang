@@ -102,7 +102,8 @@ func DelUsers(c *fiber.Ctx) error {
 
 	 c.Status(200).JSON(&fiber.Map{
 		"success": true,
-		"data":    result,
+		"nombre":  result.NAME,
+		"grado": result.GRADE,
 	})
 	return nil
 }
