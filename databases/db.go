@@ -11,7 +11,7 @@ import (
 
 func Connection() (*gorm.DB,error){
 	user := "root"
-	pass := ""
+	pass := "1234"
 	bd := "registro"
 	dns := user + ":" + pass + "@tcp(127.0.0.1)/" + bd + "?charset=utf8mb4&parseTime=True&loc=Local"
 
