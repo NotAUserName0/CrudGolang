@@ -123,17 +123,39 @@ func PutUsers(c *fiber.Ctx) error {
 		})
 	}
 
-	result, err := models.Update(id, newUser.NAME, newUser.GRADE)
-	
-	if err != nil {
-		return c.Status(400).JSON(&fiber.Map{
-			"success": false,
+	if (newUser.NAME != "") && (newUser.GRADE > 0) {
+		result, err := models.Update(id,newUser.NAME,newUser.GRADE)
+
+		if err != nil {
+			return c.Status(400).JSON(&fiber.Map{
+				"success": "false",
+				"message": err,
+			})
+		}
+
+
+		c.Status(200).JSON(&fiber.Map{
+			"success": true,
+			"nombre": result.NAME,
+			"grado": result.GRADE,
 		})
+		return nil
+
 	}
 
-	 c.Status(200).JSON(&fiber.Map{
-		"success": true,
-		"data":    result,
+	
+	var nameCheck = false
+	var gradeCheck = 0
+	if newUser.NAME != "" {
+		nameCheck = true
+	}
+	if newUser.GRADE > 0 {
+		gradeCheck = 1
+	}
+
+	return c.Status(406).JSON(&fiber.Map{
+		"no_data": "true",
+		"name": strconv.FormatBool(nameCheck),
+		"grade": gradeCheck,
 	})
-	return nil
 }
